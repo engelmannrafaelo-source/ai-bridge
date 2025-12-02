@@ -1510,15 +1510,32 @@ async def research(
                 )
                 # Don't fail the request, just log the error
 
-        # Get file size if available
+        # Get file size and content
         file_size_bytes = None
-        if output_file and Path(output_file).exists():
-            file_size_bytes = Path(output_file).stat().st_size
+        research_content = None
+
+        # Read content from container_file (where Claude Code writes it)
+        if container_file and Path(container_file).exists():
+            try:
+                research_content = Path(container_file).read_text(encoding='utf-8')
+                file_size_bytes = len(research_content.encode('utf-8'))
+                logger.info(f"📄 Read research content: {file_size_bytes} bytes from {container_file}")
+            except Exception as e:
+                logger.error(f"❌ Failed to read research content: {e}")
+        elif output_file and Path(output_file).exists():
+            # Fallback to output_file if container_file doesn't exist
+            try:
+                research_content = Path(output_file).read_text(encoding='utf-8')
+                file_size_bytes = len(research_content.encode('utf-8'))
+                logger.info(f"📄 Read research content: {file_size_bytes} bytes from {output_file}")
+            except Exception as e:
+                logger.error(f"❌ Failed to read research content: {e}")
 
         return ResearchResponse(
             status="success",
             query=request_body.query,
             model=request_body.model,
+            content=research_content,
             output_file=output_file,
             container_file=container_file,
             execution_time_seconds=round(execution_time, 2),
@@ -1543,6 +1560,7 @@ async def research(
             status="error",
             query=request_body.query,
             model=request_body.model,
+            content=None,
             output_file=None,
             container_file=None,
             execution_time_seconds=round(execution_time, 2),
