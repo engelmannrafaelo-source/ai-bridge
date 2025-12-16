@@ -146,9 +146,67 @@ export async function createClient(
   });
 }
 
+// ============================================
+// CACHED URL FOR SYNC ACCESS
+// ============================================
+
+let cachedUrl: string | null = null;
+
+/**
+ * Initialize and cache the bridge URL.
+ * Call this once at app startup, then use getBridgeUrlSync() for sync access.
+ *
+ * @example
+ * // In app initialization (e.g., _app.tsx or server startup)
+ * await initializeBridgeUrl({ fallbackEnabled: true });
+ *
+ * // Later, in sync code (e.g., constructors)
+ * const url = getBridgeUrlSync();
+ */
+export async function initializeBridgeUrl(
+  options: GetBridgeUrlOptions = {}
+): Promise<string> {
+  cachedUrl = await getBridgeUrl(options);
+  return cachedUrl;
+}
+
+/**
+ * Get the cached bridge URL synchronously.
+ * Requires initializeBridgeUrl() to be called first.
+ *
+ * @throws Error if not initialized
+ */
+export function getBridgeUrlSync(): string {
+  if (!cachedUrl) {
+    throw new Error(
+      "[ai-bridge-sdk] Not initialized. Call await initializeBridgeUrl() first."
+    );
+  }
+  return cachedUrl;
+}
+
+/**
+ * Check if the SDK has been initialized.
+ */
+export function isInitialized(): boolean {
+  return cachedUrl !== null;
+}
+
+/**
+ * Get cached URL or fallback to default (for backwards compatibility).
+ * Use this when you can't guarantee initialization but want a sensible default.
+ */
+export function getBridgeUrlOrDefault(): string {
+  return cachedUrl ?? HETZNER_URL;
+}
+
 // Default export for convenience
 export default {
   getBridgeUrl,
+  getBridgeUrlSync,
+  getBridgeUrlOrDefault,
+  initializeBridgeUrl,
+  isInitialized,
   createClient,
   healthCheck,
   HETZNER_URL,

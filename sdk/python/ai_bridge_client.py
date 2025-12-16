@@ -150,6 +150,58 @@ def create_client(
     )
 
 
+# ============================================
+# CACHED URL FOR SYNC ACCESS
+# ============================================
+
+_cached_url: Optional[str] = None
+
+
+def initialize_bridge_url(fallback_enabled: Optional[bool] = None) -> str:
+    """
+    Initialize and cache the bridge URL.
+    Call this once at app startup, then use get_bridge_url_sync() for sync access.
+
+    Example:
+        # In app initialization
+        initialize_bridge_url(fallback_enabled=True)
+
+        # Later, in sync code
+        url = get_bridge_url_sync()
+    """
+    global _cached_url
+    _cached_url = get_bridge_url(fallback_enabled=fallback_enabled)
+    return _cached_url
+
+
+def get_bridge_url_sync() -> str:
+    """
+    Get the cached bridge URL synchronously.
+    Requires initialize_bridge_url() to be called first.
+
+    Raises:
+        RuntimeError: If not initialized
+    """
+    if _cached_url is None:
+        raise RuntimeError(
+            "[ai-bridge-sdk] Not initialized. Call initialize_bridge_url() first."
+        )
+    return _cached_url
+
+
+def is_initialized() -> bool:
+    """Check if the SDK has been initialized."""
+    return _cached_url is not None
+
+
+def get_bridge_url_or_default() -> str:
+    """
+    Get cached URL or fallback to Hetzner default.
+    Use this when you can't guarantee initialization but want a sensible default.
+    """
+    return _cached_url if _cached_url is not None else HETZNER_URL
+
+
 if __name__ == "__main__":
     # Quick test
     logging.basicConfig(level=logging.INFO)
