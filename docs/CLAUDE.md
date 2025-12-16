@@ -39,7 +39,7 @@ git add -A && git commit -m "fix: beschreibung" && git push
 
 # 2. SSH zu Hetzner und updaten
 ssh root@95.217.180.242
-cd /root/ai-bridge && git pull && docker-compose down && docker-compose build --no-cache && docker-compose up -d
+cd /root/ai-bridge && git pull && docker compose down && docker compose build --no-cache && docker compose up -d
 ```
 
 ## Architecture

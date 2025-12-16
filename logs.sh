@@ -18,13 +18,13 @@ if [ "$FOLLOW" = "-f" ] || [ "$FOLLOW" = "--follow" ] || [ -z "$FOLLOW" ]; then
     echo "Following universal wrapper logs..."
     echo "Press Ctrl+C to stop"
     echo ""
-    docker-compose logs -f eco-wrapper
+    docker compose logs -f eco-wrapper
 elif [ "$FOLLOW" = "--tail" ] || [ "$FOLLOW" = "-t" ]; then
     echo "Last 100 lines of universal wrapper logs:"
     echo ""
-    docker-compose logs --tail=100 eco-wrapper
+    docker compose logs --tail=100 eco-wrapper
 else
     echo "Universal wrapper logs:"
     echo ""
-    docker-compose logs eco-wrapper
+    docker compose logs eco-wrapper
 fi

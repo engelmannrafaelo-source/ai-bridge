@@ -13,7 +13,7 @@ echo ""
 
 # Stop container
 echo "Stopping universal wrapper container..."
-docker-compose down
+docker compose down
 
 if [ $? -eq 0 ]; then
     echo ""

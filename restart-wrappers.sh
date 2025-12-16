@@ -13,7 +13,7 @@ echo ""
 
 # Restart container
 echo "Restarting universal wrapper container..."
-docker-compose restart
+docker compose restart
 
 if [ $? -ne 0 ]; then
     echo ""

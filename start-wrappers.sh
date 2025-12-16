@@ -14,7 +14,7 @@ echo ""
 
 # Start container
 echo "Starting universal wrapper container..."
-docker-compose up -d
+docker compose up -d
 
 if [ $? -ne 0 ]; then
     echo ""
@@ -24,7 +24,7 @@ if [ $? -ne 0 ]; then
     echo "  1. Check Docker Desktop is running"
     echo "  2. Check secrets/claude_token.txt exists"
     echo "  3. Check .env file has TAVILY_API_KEY"
-    echo "  4. Run: docker-compose logs"
+    echo "  4. Run: docker compose logs"
     exit 1
 fi
 
