@@ -7,7 +7,7 @@ module.exports = {
       name: 'wrapper-shared',
       script: '/opt/homebrew/bin/poetry',
       args: 'run uvicorn main:app --host 0.0.0.0 --port 8000 --workers 1 --timeout-keep-alive 300 --timeout-graceful-shutdown 30',
-      cwd: '/Users/rafael/Documents/GitHub/eco-openai-wrapper',
+      cwd: '/Users/rafael/Documents/GitHub/werkingflow/bridge',
       interpreter: 'none',
       env: {
         PORT: '8000',
@@ -30,10 +30,10 @@ module.exports = {
       name: 'wrapper-eco-backend',
       script: '/opt/homebrew/bin/poetry',
       args: 'run uvicorn main:app --host 0.0.0.0 --port 8010 --workers 1 --timeout-keep-alive 300 --timeout-graceful-shutdown 30',
-      cwd: '/Users/rafael/Documents/GitHub/eco-openai-wrapper',
+      cwd: '/Users/rafael/Documents/GitHub/werkingflow/bridge',
       interpreter: 'none',
       env: {
-        CLAUDE_CWD: '/Users/rafael/Documents/GitHub/eco-openai-wrapper/instances/eco-backend',
+        CLAUDE_CWD: '/Users/rafael/Documents/GitHub/werkingflow/bridge/instances/eco-backend',
         PORT: '8010',
         INSTANCE_NAME: 'eco-backend'
       },
@@ -53,10 +53,10 @@ module.exports = {
       name: 'wrapper-eco-diagnostics',
       script: '/opt/homebrew/bin/poetry',
       args: 'run uvicorn main:app --host 0.0.0.0 --port 8020 --workers 1 --timeout-keep-alive 300 --timeout-graceful-shutdown 30',
-      cwd: '/Users/rafael/Documents/GitHub/eco-openai-wrapper',
+      cwd: '/Users/rafael/Documents/GitHub/werkingflow/bridge',
       interpreter: 'none',
       env: {
-        CLAUDE_CWD: '/Users/rafael/Documents/GitHub/eco-openai-wrapper/instances/eco-diagnostics',
+        CLAUDE_CWD: '/Users/rafael/Documents/GitHub/werkingflow/bridge/instances/eco-diagnostics',
         PORT: '8020',
         INSTANCE_NAME: 'eco-diagnostics'
       },
@@ -76,7 +76,7 @@ module.exports = {
       name: 'eco-coach-api',
       script: '/opt/homebrew/bin/python3',
       args: '-m uvicorn api.main:app --host 0.0.0.0 --port 8002',
-      cwd: '/Users/rafael/Documents/GitHub/eco-coach',
+      cwd: '/Users/rafael/Documents/GitHub/support/eco-coach',
       interpreter: 'none',
       env: {
         PORT: '8002'
